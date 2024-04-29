@@ -1,41 +1,46 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rádio MSB - A Rádio que toca você</title>
+    <title>Web Rádio</title>
     <style>
+        /* Estilos básicos para manter o player centralizado */
         body {
-            margin: 0;
-            padding: 0;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             height: 100vh;
-            background-color: #000;
-            font-family: Arial, sans-serif;
-            color: #fff;
+            margin: 0;
         }
 
-        .letreiro {
-            font-size: 48px;
-            text-transform: uppercase;
-            white-space: nowrap;
-            overflow: hidden;
-            animation: scroll 10s linear infinite;
+        audio {
+            width: 100%;
+            max-width: 310px;
         }
 
-        @keyframes scroll {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
+        /* Estilo para a imagem do logotipo */
+        img {
+            max-width: 300px; /* Ajuste a largura conforme desejado */
+            margin-bottom: 20px;
         }
     </style>
 </head>
+
 <body>
-    <div class="letreiro">Rádio MSB - A Rádio que toca você</div>
+    <!-- Imagem do logotipo -->
+    <img src="https://i.postimg.cc/bvSz3YDF/logoradio.png" alt="Logotipo da Rádio">
+
+    <!-- Player de áudio -->
+    <audio controls autoplay>
+        <source src="https://stream.zeno.fm/eriqm9txjgwvv" type="audio/mp3">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+
+<marquee> Seja bem-vindo a RÁDIO MSB- A rádio que toca Você! <br></marquee>
 </body>
+
 </html>
