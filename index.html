@@ -1,106 +1,13 @@
 <!DOCTYPE html>
-<html lang="pt">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vídeos do YouTube em Janela Pop-up</title>
-
-    <!-- Inclui o CSS da biblioteca Fancybox -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
-
-    <!-- Inclui o jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-    <!-- Inclui o JavaScript da biblioteca Fancybox -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-
-    <style>
-        /* Estilos para o layout responsivo */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            padding: 10px;
-        }
-
-        .video-thumbnail {
-            display: block;
-            width: 100%;
-            cursor: pointer;
-            text-align: center;
-        }
-
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .video-title {
-            margin-top: 5px;
-            font-size: 14px;
-            color: #333;
-        }
-    </style>
-</head>
-
+<html lang="pt-BR">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+      <meta http-equiv="Content-Language" content="pt-BR" />
+      <title>Site</title>
+      <style type="text/css">html,body{width:100%;height:100%;overflow: hidden;}</style>
+   </head>
 <body>
-    <div class="container">
-        <!-- Miniatura do vídeo com link para o vídeo em uma janela pop-up -->
-        <a data-fancybox="gallery" href="https://www.youtube.com/embed/BYEUXLsMN-0" class="video-thumbnail">
-            <img src="https://img.youtube.com/vi/BYEUXLsMN-0/hqdefault.jpg" alt="Miniatura do vídeo 1">
-            <div class="video-title">Parabéns Heloíse Renée Costa Braga! - 10 anos de pura alegria e amor!</div>
-        </a>
-
-        <a data-fancybox="gallery" href="https://www.youtube.com/embed/6VhWJ76lBwg" class="video-thumbnail">
-            <img src="https://img.youtube.com/vi/6VhWJ76lBwg/hqdefault.jpg" alt="Miniatura do vídeo 2">
-            <div class="video-title">|| Declaração de Amor - CUIARANA - Salinópolis ||</div>
-        </a>
-
-        <a data-fancybox="gallery" href="https://www.youtube.com/embed/8JcmvXSou1E" class="video-thumbnail">
-            <img src="https://img.youtube.com/vi/8JcmvXSou1E/hqdefault.jpg" alt="Miniatura do vídeo 3">
-            <div class="video-title">✨ PRAIA DA SOFIA : Um pedacinho do paraíso em Salinópolis!</div>
-        </a>
-        <a data-fancybox="gallery" href="https://www.youtube.com/embed/8JcmvXSou1E" class="video-thumbnail">
-            <img src="https://img.youtube.com/vi/8JcmvXSou1E/hqdefault.jpg" alt="Miniatura do vídeo 3">
-            <div class="video-title">✨ PRAIA DA SOFIA : Um pedacinho do paraíso em Salinópolis!</div>
-        </a>
-        <a data-fancybox="gallery" href="https://www.youtube.com/embed/8JcmvXSou1E" class="video-thumbnail">
-            <img src="https://img.youtube.com/vi/8JcmvXSou1E/hqdefault.jpg" alt="Miniatura do vídeo 3">
-            <div class="video-title">✨ PRAIA DA SOFIA : Um pedacinho do paraíso em Salinópolis!</div>
-        </a>
-        <a data-fancybox="gallery" href="https://www.youtube.com/embed/8JcmvXSou1E" class="video-thumbnail">
-            <img src="https://img.youtube.com/vi/8JcmvXSou1E/hqdefault.jpg" alt="Miniatura do vídeo 3">
-            <div class="video-title">✨ PRAIA DA SOFIA : Um pedacinho do paraíso em Salinópolis!</div>
-        </a>
-
-        <!-- Adicione mais miniaturas com seus respectivos títulos conforme necessário -->
-    </div>
-
-    <!-- Inicializa o Fancybox para os vídeos -->
-    <script>
-        $(document).ready(function() {
-            // Inicializa o Fancybox
-            $('[data-fancybox="gallery"]').fancybox({
-                iframe: {
-                    // Define o preload como false para melhor performance
-                    preload: false,
-                    css: {
-                        width: '640px',
-                        height: '360px'
-                    }
-                }
-            });
-        });
-    </script>
+<iframe src="https://player.srvsh.com.br/player-home-page/8682" frameborder="0" style="border: 0; position:fixed; top:0; left:0; right:0; bottom:0; width:100%; height:100%"></iframe>
 </body>
-
 </html>
