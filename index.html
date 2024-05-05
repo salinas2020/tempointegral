@@ -5,98 +5,91 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vídeos do YouTube em Janela Pop-up</title>
-
-    <!-- Inclui o CSS da biblioteca Fancybox -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
-
-    <!-- Inclui o jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-    <!-- Inclui o JavaScript da biblioteca Fancybox -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-
+    <title>Vídeos do YouTube</title>
     <style>
-        /* Estilos para o layout responsivo */
+        /* Estilos para tornar a página responsiva */
         body {
-            margin: 0;
-            padding: 0;
             font-family: Arial, sans-serif;
         }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 1200px;
             padding: 20px;
         }
 
-        .video-card {
-            width: 100%;
-            max-width: 320px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .video-thumbnail {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
+        .video-item {
             cursor: pointer;
         }
 
-        /* Estilo para o título do vídeo */
-        .video-title {
-            margin-top: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
+        .video-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <!-- Vídeo com miniatura e título -->
-        <div class="video-card">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/8JcmvXSou1E" class="video-thumbnail">
-                <img src="https://img.youtube.com/vi/8JcmvXSou1E/hqdefault.jpg" alt="Miniatura do vídeo 1">
-            </a>
-            <div class="video-title">✨ PRAIA DA SOFIA : Um pedacinho do paraíso em Salinópolis!</div>
-        </div>
+    <h1>Vídeos do YouTube</h1>
+    <div id="video-container" class="video-container"></div>
 
-        <div class="video-card">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/gTaWCjXszjg" class="video-thumbnail">
-                <img src="https://img.youtube.com/vi/gTaWCjXszjg/hqdefault.jpg" alt="Miniatura do vídeo 2">
-            </a>
-            <div class="video-title">|| Praça do Pescador em Salinópolis: um domingo de beleza estonteante! ||</div>
-        </div>
-
-        <div class="video-card">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/6VhWJ76lBwg" class="video-thumbnail">
-                <img src="https://img.youtube.com/vi/6VhWJ76lBwg/hqdefault.jpg" alt="Miniatura do vídeo 3">
-            </a>
-            <div class="video-title">|| Declaração de Amor - CUIARANA - Salinópolis ||</div>
-        </div>
-
-        <!-- Adicione mais vídeos conforme necessário -->
-    </div>
-
-    <!-- Inicializa o Fancybox para os vídeos -->
     <script>
-        $(document).ready(function() {
-            // Inicializa o Fancybox
-            $('[data-fancybox="gallery"]').fancybox({
-                iframe: {
-                    // Define o preload como false para melhor performance
-                    preload: false,
-                    css: {
-                        width: '640px',
-                        height: '360px'
-                    }
-                }
+        // Lista de IDs dos vídeos a serem exibidos
+        const videoIds = [
+            'qWUobN0xtcE',
+            'qWUobN0xtcE',
+            'ID_VIDEO_3',
+            'ID_VIDEO_4',
+            'ID_VIDEO_5',
+            'ID_VIDEO_6',
+            'ID_VIDEO_7',
+            'ID_VIDEO_8',
+            'ID_VIDEO_9',
+            'ID_VIDEO_10'
+        ];
+
+        // Função para exibir as miniaturas de vídeos
+        function displayVideos() {
+            const videoContainer = document.getElementById('video-container');
+
+            videoIds.forEach(videoId => {
+                // Cria um item de vídeo
+                const videoItem = document.createElement('div');
+                videoItem.classList.add('video-item');
+
+                // Cria o link para o vídeo
+                const videoLink = document.createElement('a');
+                videoLink.href = `https://www.youtube.com/watch?v=${videoId}`;
+                videoLink.target = '_blank'; // Abre o vídeo em uma nova janela
+
+                // Cria a miniatura do vídeo
+                const thumbnail = document.createElement('img');
+                thumbnail.src = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+                thumbnail.alt = `Miniatura do vídeo ${videoId}`;
+                
+                // Adiciona a miniatura ao link
+                videoLink.appendChild(thumbnail);
+
+                // Adiciona o link ao item de vídeo
+                videoItem.appendChild(videoLink);
+
+                // Adiciona o item de vídeo ao container
+                videoContainer.appendChild(videoItem);
             });
-        });
+        }
+
+        // Chama a função para exibir os vídeos ao carregar a página
+        displayVideos();
     </script>
 </body>
 
