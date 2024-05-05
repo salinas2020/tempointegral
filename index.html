@@ -1,106 +1,66 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vídeos do YouTube</title>
-    <style>
-        /* Estilos para tornar a página responsiva */
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        h1 {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .video-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            justify-content: center;
-            margin: 0 auto;
-            max-width: 1200px;
-            padding: 20px;
-        }
-
-        .video-item {
-            cursor: pointer;
-        }
-
-        .video-item img {
-            width: 100%;
-            height: auto;
-            border-radius: 5px;
-        }
-    </style>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-    <h1>Vídeos do YouTube</h1>
-    <div id="video-container" class="video-container"></div>
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Miniatura do vídeo 1 -->
+            <div class="col-md-4">
+                <a href="#" data-toggle="modal" data-target="#videoModal" data-video="https://www.youtube.com/embed/qWUobN0xtcE">
+                    <img src="https://img.youtube.com/vi/qWUobN0xtcE/mqdefault.jpg" alt="qWUobN0xtcE" class="img-fluid">
+                </a>
+            </div>
+            <!-- Miniatura do vídeo 2 -->
+            <div class="col-md-4">
+                <a href="#" data-toggle="modal" data-target="#videoModal" data-video="https://www.youtube.com/embed/qWUobN0xtcE">
+                    <img src="https://img.youtube.com/vi/qWUobN0xtcE/mqdefault.jpg" alt="qWUobN0xtcE" class="img-fluid">
+                </a>
+            </div>
+            <!-- Miniatura do vídeo 3 -->
+            <div class="col-md-4">
+                <a href="#" data-toggle="modal" data-target="#videoModal" data-video="https://www.youtube.com/embed/qWUobN0xtcE">
+                    <img src="https://img.youtube.com/vi/qWUobN0xtcE/mqdefault.jpg" alt="qWUobN0xtcE" class="img-fluid">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para exibir o vídeo do YouTube -->
+    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="videoModalLabel">Vídeo do YouTube</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="videoFrame" width="100%" height="400" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Lista de IDs dos vídeos a serem exibidos
-        const videoIds = [
-             'qWUobN0xtcE',
-            'qWUobN0xtcE',
-            'qWUobN0xtcE',
-            'ID_VIDEO_4',
-            'ID_VIDEO_5',
-            'ID_VIDEO_6',
-            'ID_VIDEO_7',
-            'ID_VIDEO_8',
-            'ID_VIDEO_9',
-            'ID_VIDEO_10'
-        ];
+        // Adiciona evento para abrir o modal com o vídeo do YouTube correto
+        $('a[data-toggle="modal"]').on('click', function() {
+            var videoUrl = $(this).data('video');
+            $('#videoFrame').attr('src', videoUrl);
+        });
 
-        // Função para exibir miniaturas de vídeos
-        function displayVideos() {
-            const videoContainer = document.getElementById('video-container');
-
-            videoIds.forEach(videoId => {
-                // Cria um item de vídeo
-                const videoItem = document.createElement('div');
-                videoItem.classList.add('video-item');
-
-                // Cria a miniatura do vídeo
-                const thumbnail = document.createElement('img');
-                thumbnail.src = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
-                thumbnail.alt = `Miniatura do vídeo ${videoId}`;
-
-                // Adiciona um evento de clique para abrir o vídeo em uma janela pop-up
-                videoItem.addEventListener('click', () => {
-                    openVideoInPopup(videoId);
-                });
-
-                // Adiciona a miniatura ao item de vídeo
-                videoItem.appendChild(thumbnail);
-
-                // Adiciona o item de vídeo ao container
-                videoContainer.appendChild(videoItem);
-            });
-        }
-
-        // Função para abrir o vídeo em uma janela pop-up
-        function openVideoInPopup(videoId) {
-            const popup = window.open(
-                `https://www.youtube.com/watch?v=${videoId}`,
-                'videoPopup',
-                'width=800,height=450'
-            );
-            if (popup) {
-                popup.focus();
-            } else {
-                alert('Por favor, habilite pop-ups para visualizar o vídeo.');
-            }
-        }
-
-        // Inicializa a exibição dos vídeos ao carregar a página
-        displayVideos();
+        // Limpa o src do iframe quando o modal é fechado
+        $('#videoModal').on('hidden.bs.modal', function() {
+            $('#videoFrame').attr('src', '');
+        });
     </script>
 </body>
 
