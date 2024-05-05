@@ -1,65 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt">
 
 <head>
-    <title>Vídeos do YouTube</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vídeos do YouTube em Janela Pop-up</title>
+
+    <!-- Inclui o CSS da biblioteca Fancybox -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+    <!-- Inclui o jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Inclui o JavaScript da biblioteca Fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+    <style>
+        /* Estilos para o layout responsivo */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .video-thumbnail {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16/9;
+            cursor: pointer;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container mt-5">
-        <div class="row">
-            <!-- Miniatura do vídeo 1 -->
-            <div class="col-md-4">
-                <a href="#" data-toggle="modal" data-target="#videoModal" data-video="https://www.youtube.com/embed/qWUobN0xtcE">
-                    <img src="https://img.youtube.com/vi/qWUobN0xtcE/mqdefault.jpg" alt="qWUobN0xtcE" class="img-fluid">
-                </a>
-            </div>
-            <!-- Miniatura do vídeo 2 -->
-            <div class="col-md-4">
-                <a href="#" data-toggle="modal" data-target="#videoModal" data-video="https://www.youtube.com/embed/qWUobN0xtcE">
-                    <img src="https://img.youtube.com/vi/qWUobN0xtcE/mqdefault.jpg" alt="qWUobN0xtcE" class="img-fluid">
-                </a>
-            </div>
-            <!-- Miniatura do vídeo 3 -->
-            <div class="col-md-4">
-                <a href="#" data-toggle="modal" data-target="#videoModal" data-video="https://www.youtube.com/embed/qWUobN0xtcE">
-                    <img src="https://img.youtube.com/vi/qWUobN0xtcE/mqdefault.jpg" alt="qWUobN0xtcE" class="img-fluid">
-                </a>
-            </div>
-        </div>
+    <div class="container">
+        <!-- Miniatura do vídeo com link para o vídeo em uma janela pop-up -->
+        <a data-fancybox="gallery" href="https://www.youtube.com/embed/6VhWJ76lBwg&t=6s" class="video-thumbnail">
+            <img src="https://img.youtube.com/vi/6VhWJ76lBwg&t=6s/hqdefault.jpg" alt="Miniatura do vídeo 1">
+        </a>
+
+        <a data-fancybox="gallery" href="https://www.youtube.com/embed/6VhWJ76lBwg&t=6s" class="video-thumbnail">
+            <img src="https://img.youtube.com/vi/6VhWJ76lBwg&t=6s/hqdefault.jpg" alt="Miniatura do vídeo 2">
+        </a>
+
+        <a data-fancybox="gallery" href="https://www.youtube.com/embed/6VhWJ76lBwg&t=6s" class="video-thumbnail">
+            <img src="https://img.youtube.com/vi/6VhWJ76lBwg&t=6s/hqdefault.jpg" alt="Miniatura do vídeo 3">
+        </a>
+
+        <!-- Adicione mais miniaturas conforme necessário -->
     </div>
 
-    <!-- Modal para exibir o vídeo do YouTube -->
-    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="videoModalLabel">Vídeo do YouTube</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <iframe id="videoFrame" width="100%" height="400" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Inicializa o Fancybox para os vídeos -->
     <script>
-        // Adiciona evento para abrir o modal com o vídeo do YouTube correto
-        $('a[data-toggle="modal"]').on('click', function() {
-            var videoUrl = $(this).data('video');
-            $('#videoFrame').attr('src', videoUrl);
-        });
-
-        // Limpa o src do iframe quando o modal é fechado
-        $('#videoModal').on('hidden.bs.modal', function() {
-            $('#videoFrame').attr('src', '');
+        $(document).ready(function() {
+            // Inicializa o Fancybox
+            $('[data-fancybox="gallery"]').fancybox({
+                iframe: {
+                    // Define o preload como false para melhor performance
+                    preload: false,
+                    css: {
+                        width: '640px',
+                        height: '360px'
+                    }
+                }
+            });
         });
     </script>
 </body>
