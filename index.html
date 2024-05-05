@@ -46,9 +46,9 @@
     <script>
         // Lista de IDs dos vídeos a serem exibidos
         const videoIds = [
+             'qWUobN0xtcE',
             'qWUobN0xtcE',
             'qWUobN0xtcE',
-            'ID_VIDEO_3',
             'ID_VIDEO_4',
             'ID_VIDEO_5',
             'ID_VIDEO_6',
@@ -58,7 +58,7 @@
             'ID_VIDEO_10'
         ];
 
-        // Função para exibir as miniaturas de vídeos
+        // Função para exibir miniaturas de vídeos
         function displayVideos() {
             const videoContainer = document.getElementById('video-container');
 
@@ -67,28 +67,39 @@
                 const videoItem = document.createElement('div');
                 videoItem.classList.add('video-item');
 
-                // Cria o link para o vídeo
-                const videoLink = document.createElement('a');
-                videoLink.href = `https://www.youtube.com/watch?v=${videoId}`;
-                videoLink.target = '_blank'; // Abre o vídeo em uma nova janela
-
                 // Cria a miniatura do vídeo
                 const thumbnail = document.createElement('img');
                 thumbnail.src = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
                 thumbnail.alt = `Miniatura do vídeo ${videoId}`;
-                
-                // Adiciona a miniatura ao link
-                videoLink.appendChild(thumbnail);
 
-                // Adiciona o link ao item de vídeo
-                videoItem.appendChild(videoLink);
+                // Adiciona um evento de clique para abrir o vídeo em uma janela pop-up
+                videoItem.addEventListener('click', () => {
+                    openVideoInPopup(videoId);
+                });
+
+                // Adiciona a miniatura ao item de vídeo
+                videoItem.appendChild(thumbnail);
 
                 // Adiciona o item de vídeo ao container
                 videoContainer.appendChild(videoItem);
             });
         }
 
-        // Chama a função para exibir os vídeos ao carregar a página
+        // Função para abrir o vídeo em uma janela pop-up
+        function openVideoInPopup(videoId) {
+            const popup = window.open(
+                `https://www.youtube.com/watch?v=${videoId}`,
+                'videoPopup',
+                'width=800,height=450'
+            );
+            if (popup) {
+                popup.focus();
+            } else {
+                alert('Por favor, habilite pop-ups para visualizar o vídeo.');
+            }
+        }
+
+        // Inicializa a exibição dos vídeos ao carregar a página
         displayVideos();
     </script>
 </body>
