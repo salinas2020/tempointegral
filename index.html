@@ -32,9 +32,8 @@
         }
 
         .video-thumbnail {
-            display: block;
             width: 100%;
-            aspect-ratio: 16/9;
+            aspect-ratio: 16 / 9;
             cursor: pointer;
         }
 
@@ -45,177 +44,144 @@
             text-align: center;
         }
 
-        .video-container {
-            display: block;
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: 1px solid #333;
+            background-color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .pagination button.active {
+            background-color: #333;
+            color: white;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <!-- Miniatura do vídeo com link para o vídeo em uma janela pop-up -->
-             <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/6VhWJ76lBwg">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/6VhWJ76lBwg/hqdefault.jpg" alt="Miniatura do vídeo 1">
-            </a>
-            <div class="video-title">Paixao de Amor por Cuiarana</div>
-        </div>
-
-        <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/BYEUXLsMN-0">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/BYEUXLsMN-0/hqdefault.jpg" alt="Miniatura do vídeo 2">
-            </a>
-            <div class="video-title">TParabéns Heloíse Renée Costa Braga! - 10 anos de pura alegria e amor!</div>
-        </div>
-
-        <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/8JcmvXSou1E">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/8JcmvXSou1E/hqdefault.jpg" alt="Miniatura do vídeo 3">
-            </a>
-            <div class="video-title">✨ PRAIA DA SOFIA : Um pedacinho do paraíso em Salinópolis!</div>
-        </div>
-            <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/6VhWJ76lBwg">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/6VhWJ76lBwg/hqdefault.jpg" alt="Miniatura do vídeo 1">
-            </a>
-            <div class="video-title">Paixao de Amor por Cuiarana</div>
-        </div>
-
-        <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/BYEUXLsMN-0">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/BYEUXLsMN-0/hqdefault.jpg" alt="Miniatura do vídeo 2">
-            </a>
-            <div class="video-title">TParabéns Heloíse Renée Costa Braga! - 10 anos de pura alegria e amor!</div>
-        </div>
-
-        <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/8JcmvXSou1E">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/8JcmvXSou1E/hqdefault.jpg" alt="Miniatura do vídeo 3">
-            </a>
-            <div class="video-title">✨ PRAIA DA SOFIA : Um pedacinho do paraíso em Salinópolis!</div>
-        </div> 
-           <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/6VhWJ76lBwg">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/6VhWJ76lBwg/hqdefault.jpg" alt="Miniatura do vídeo 1">
-            </a>
-            <div class="video-title">Paixao de Amor por Cuiarana</div>
-        </div>
-
-        <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/BYEUXLsMN-0">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/BYEUXLsMN-0/hqdefault.jpg" alt="Miniatura do vídeo 2">
-            </a>
-            <div class="video-title">TParabéns Heloíse Renée Costa Braga! - 10 anos de pura alegria e amor!</div>
-        </div>
-
-        <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/8JcmvXSou1E">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/8JcmvXSou1E/hqdefault.jpg" alt="Miniatura do vídeo 3">
-            </a>
-            <div class="video-title">✨ PRAIA DA SOFIA : Um pedacinho do paraíso em Salinópolis!</div>
-        </div>   
-         <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/6VhWJ76lBwg">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/6VhWJ76lBwg/hqdefault.jpg" alt="Miniatura do vídeo 1">
-            </a>
-            <div class="video-title">Paixao de Amor por Cuiarana</div>
-        </div>
-
-        <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/BYEUXLsMN-0">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/BYEUXLsMN-0/hqdefault.jpg" alt="Miniatura do vídeo 2">
-            </a>
-            <div class="video-title">TParabéns Heloíse Renée Costa Braga! - 10 anos de pura alegria e amor!</div>
-        </div>
-
-        <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/8JcmvXSou1E">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/8JcmvXSou1E/hqdefault.jpg" alt="Miniatura do vídeo 3">
-            </a>
-            <div class="video-title">✨ PRAIA DA SOFIA : Um pedacinho do paraíso em Salinópolis!</div>
-        </div>
-            <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/6VhWJ76lBwg">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/6VhWJ76lBwg/hqdefault.jpg" alt="Miniatura do vídeo 1">
-            </a>
-            <div class="video-title">Paixao de Amor por Cuiarana</div>
-        </div>
-
-        <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/BYEUXLsMN-0">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/BYEUXLsMN-0/hqdefault.jpg" alt="Miniatura do vídeo 2">
-            </a>
-            <div class="video-title">TParabéns Heloíse Renée Costa Braga! - 10 anos de pura alegria e amor!</div>
-        </div>
-
-        <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/8JcmvXSou1E">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/8JcmvXSou1E/hqdefault.jpg" alt="Miniatura do vídeo 3">
-            </a>
-            <div class="video-title">✨ PRAIA DA SOFIA : Um pedacinho do paraíso em Salinópolis!</div>
-        </div>
-           <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/6VhWJ76lBwg">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/6VhWJ76lBwg/hqdefault.jpg" alt="Miniatura do vídeo 1">
-            </a>
-            <div class="video-title">Paixao de Amor por Cuiarana</div>
-        </div>
-
-        <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/BYEUXLsMN-0">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/BYEUXLsMN-0/hqdefault.jpg" alt="Miniatura do vídeo 2">
-            </a>
-            <div class="video-title">TParabéns Heloíse Renée Costa Braga! - 10 anos de pura alegria e amor!</div>
-        </div>
-
-        <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/8JcmvXSou1E">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/8JcmvXSou1E/hqdefault.jpg" alt="Miniatura do vídeo 3">
-            </a>
-            <div class="video-title">✨ PRAIA DA SOFIA : Um pedacinho do paraíso em Salinópolis!</div>
-        </div>
-        
-        <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/6VhWJ76lBwg">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/6VhWJ76lBwg/hqdefault.jpg" alt="Miniatura do vídeo 1">
-            </a>
-            <div class="video-title">Paixao de Amor por Cuiarana</div>
-        </div>
-
-        <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/BYEUXLsMN-0">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/BYEUXLsMN-0/hqdefault.jpg" alt="Miniatura do vídeo 2">
-            </a>
-            <div class="video-title">TParabéns Heloíse Renée Costa Braga! - 10 anos de pura alegria e amor!</div>
-        </div>
-
-        <div class="video-container">
-            <a data-fancybox="gallery" href="https://www.youtube.com/embed/8JcmvXSou1E">
-                <img class="video-thumbnail" src="https://img.youtube.com/vi/8JcmvXSou1E/hqdefault.jpg" alt="Miniatura do vídeo 3">
-            </a>
-            <div class="video-title">✨ PRAIA DA SOFIA : Um pedacinho do paraíso em Salinópolis!</div>
-        </div>
-
-        <!-- Adicione mais miniaturas com seus respectivos títulos conforme necessário -->
+    <div id="gallery-container" class="container">
+        <!-- As miniaturas serão carregadas pelo JavaScript -->
     </div>
 
-    <!-- Inicializa o Fancybox para os vídeos -->
+    <div class="pagination" id="pagination">
+        <!-- A navegação será carregada pelo JavaScript -->
+    </div>
+
     <script>
-        $(document).ready(function() {
-            // Inicializa o Fancybox
-            $('[data-fancybox="gallery"]').fancybox({
-                iframe: {
-                    // Define o preload como false para melhor performance
-                    preload: false,
-                    css: {
-                        width: '640px',
-                        height: '360px'
-                    }
-                }
+        const videos = [
+            { id: 'VIDEO_ID1', title: 'Título do Vídeo 1' },
+            { id: 'VIDEO_ID2', title: 'Título do Vídeo 2' },
+            { id: 'VIDEO_ID3', title: 'Título do Vídeo 3' },
+            { id: 'VIDEO_ID4', title: 'Título do Vídeo 4' },
+            { id: 'VIDEO_ID5', title: 'Título do Vídeo 5' },
+            { id: 'VIDEO_ID6', title: 'Título do Vídeo 6' },
+            { id: 'VIDEO_ID7', title: 'Título do Vídeo 7' },
+            { id: 'VIDEO_ID8', title: 'Título do Vídeo 8' },
+            { id: 'VIDEO_ID9', title: 'Título do Vídeo 9' },
+            { id: 'VIDEO_ID10', title: 'Título do Vídeo 10' },
+            { id: 'VIDEO_ID11', title: 'Título do Vídeo 11' },
+            { id: 'VIDEO_ID12', title: 'Título do Vídeo 12' },
+            { id: 'VIDEO_ID13', title: 'Título do Vídeo 13' },
+            { id: 'VIDEO_ID14', title: 'Título do Vídeo 14' },
+{ id: 'VIDEO_ID15', title: 'Título do Vídeo 15' },
+{ id: 'VIDEO_ID16', title: 'Título do Vídeo 16' },
+{ id: 'VIDEO_ID17', title: 'Título do Vídeo 17' },
+{ id: 'VIDEO_ID18', title: 'Título do Vídeo 18' },
+{ id: 'VIDEO_ID19', title: 'Título do Vídeo 19' },
+{ id: 'VIDEO_ID20', title: 'Título do Vídeo 20' },
+{ id: 'VIDEO_ID21', title: 'Título do Vídeo 21' },
+{ id: 'VIDEO_ID22', title: 'Título do Vídeo 22' },
+{ id: 'VIDEO_ID23', title: 'Título do Vídeo 23' },
+{ id: 'VIDEO_ID24', title: 'Título do Vídeo 24' },
+{ id: 'VIDEO_ID25', title: 'Título do Vídeo 25' },
+            // Adicione mais vídeos conforme necessário
+        ];
+
+        const itemsPerPage = 8; // Número máximo de miniaturas por página
+        let currentPage = 1; // Página atual
+
+        function loadPage(page) {
+            // Calcula os índices de início e fim para a página atual
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+
+            // Filtra os vídeos para a página atual
+            const currentVideos = videos.slice(startIndex, endIndex);
+
+            // Limpa o conteúdo do container
+            const galleryContainer = document.getElementById('gallery-container');
+            galleryContainer.innerHTML = '';
+
+            // Adiciona as miniaturas para a página atual
+            currentVideos.forEach(video => {
+                const videoContainer = document.createElement('div');
+                videoContainer.className = 'video-container';
+
+                const aElement = document.createElement('a');
+                aElement.setAttribute('data-fancybox', 'gallery');
+                aElement.setAttribute('href', `https://www.youtube.com/embed/${video.id}`);
+
+                const imgElement = document.createElement('img');
+                imgElement.className = 'video-thumbnail';
+                imgElement.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+                imgElement.alt = video.title;
+
+                const titleElement = document.createElement('div');
+                titleElement.className = 'video-title';
+                titleElement.innerText = video.title;
+
+                // Adiciona a imagem e o título ao container do vídeo
+                aElement.appendChild(imgElement);
+                videoContainer.appendChild(aElement);
+                videoContainer.appendChild(titleElement);
+
+                // Adiciona o container ao container principal
+                galleryContainer.appendChild(videoContainer);
             });
-        });
+
+            // Atualiza a navegação
+            updatePagination(page);
+        }
+
+        function updatePagination(page) {
+            // Calcula o número total de páginas
+            const totalPages = Math.ceil(videos.length / itemsPerPage);
+
+            // Limpa a navegação atual
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            // Cria os botões de navegação
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.innerText = i;
+
+                // Adiciona a classe active ao botão da página atual
+                if (i === page) {
+                    button.classList.add('active');
+                }
+
+                // Adiciona um evento de clique para carregar a página selecionada
+                button.addEventListener('click', () => {
+                    currentPage = i;
+                    loadPage(currentPage);
+                });
+
+                // Adiciona o botão à navegação
+                pagination.appendChild(button);
+            }
+        }
+
+        // Inicializa a primeira página
+        loadPage(currentPage);
     </script>
 </body>
 
 </html>
-
