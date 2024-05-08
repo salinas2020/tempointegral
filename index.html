@@ -7,49 +7,116 @@
     <title>Miniaturas do Canal do YouTube</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
     <style>
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 10px;
+        }
+
+        .video-thumbnail-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .video-thumbnail {
-            width: 200px;
-            height: 150px;
-            margin: 10px;
+            width: 100%;
+            height: auto;
             cursor: pointer;
+        }
+
+        .video-info {
+            text-align: center;
+            margin-top: 5px;
         }
     </style>
 </head>
 
 <body>
     <div id="video-thumbnails" class="container"></div>
+    <div id="pagination"></div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
     <script>
         const apiKey = 'AIzaSyAMlSYvC_1X_MIUxMI2IhLUYxMAudtrW80';
         const channelId = 'UCUfgnz2WuFV0fv6RdIYrKZQ';
-        const maxResults = 8;
+        const maxResults = 80;
+        const itemsPerPage = 8;
 
         fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&maxResults=${maxResults}&order=date`)
             .then(response => response.json())
             .then(data => {
                 const videoThumbnails = document.getElementById('video-thumbnails');
-                data.items.forEach(item => {
-                    const videoThumbnailLink = document.createElement('a');
-                    videoThumbnailLink.href = `https://www.youtube.com/watch?v=${item.id.videoId}`;
-                    videoThumbnailLink.dataset.fancybox = 'gallery';
-                    videoThumbnailLink.dataset.caption = item.snippet.title;
+                const pagination = document.getElementById('pagination');
 
-                    const videoThumbnail = document.createElement('img');
-                    videoThumbnail.src = item.snippet.thumbnails.medium.url;
-                    videoThumbnail.alt = item.snippet.title;
-                    videoThumbnail.className = 'video-thumbnail';
+                const totalPages = Math.ceil(data.items.length / itemsPerPage);
 
-                    videoThumbnailLink.appendChild(videoThumbnail);
-                    videoThumbnails.appendChild(videoThumbnailLink);
-                });
+                function showPage(page) {
+                    videoThumbnails.innerHTML = '';
 
-                $('[data-fancybox="gallery"]').fancybox({
-                    iframe: {
-                        preload: false
+                    const startIndex = (page - 1) * itemsPerPage;
+                    const endIndex = startIndex + itemsPerPage;
+
+                    for (let i = startIndex; i < endIndex && i < data.items.length; i++) {
+                        const item = data.items[i];
+                        const videoThumbnailContainer = document.createElement('div');
+                        videoThumbnailContainer.className = 'video-thumbnail-container';
+
+                        const videoThumbnailLink = document.createElement('a');
+                        videoThumbnailLink.href = `https://www.youtube.com/watch?v=${item.id.videoId}`;
+                        videoThumbnailLink.dataset.fancybox = 'gallery';
+                        videoThumbnailLink.dataset.caption = item.snippet.title;
+
+                        const videoThumbnail = document.createElement('img');
+                        videoThumbnail.src = item.snippet.thumbnails.medium.url;
+                        videoThumbnail.alt = item.snippet.title;
+                        videoThumbnail.className = 'video-thumbnail';
+
+                        videoThumbnailLink.appendChild(videoThumbnail);
+                        videoThumbnailContainer.appendChild(videoThumbnailLink);
+
+                        const videoInfo = document.createElement('div');
+                        videoInfo.className = 'video-info';
+
+                        const videoTitle = document.createElement('h3');
+                        videoTitle.textContent = item.snippet.title;
+
+                        const videoPublishedAt = document.createElement('p');
+                        videoPublishedAt.textContent = new Date(item.snippet.publishedAt).toLocaleDateString();
+
+                        videoInfo.appendChild(videoTitle);
+                        videoInfo.appendChild(videoPublishedAt);
+
+                        videoThumbnailContainer.appendChild(videoInfo);
+                        videoThumbnails.appendChild(videoThumbnailContainer);
                     }
-                });
+
+                    $('[data-fancybox="gallery"]').fancybox({
+                        iframe: {
+                            preload: false
+                        }
+                    });
+                }
+
+                function showPagination() {
+                    pagination.innerHTML = '';
+
+                    for (let i = 1; i <= totalPages; i++) {
+                        const pageLink = document.createElement('a');
+                        pageLink.href = '#';
+                        pageLink.textContent = i;
+                        pageLink.onclick = function() {
+                            showPage(i);
+                            return false;
+                        };
+
+                        pagination.appendChild(pageLink);
+                    }
+                }
+
+                showPage(1);
+                showPagination();
             })
             .catch(error => console.error(error));
     </script>
