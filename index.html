@@ -75,67 +75,72 @@
     </div>
 
     <script>
-        const videos = [
-            { id: 'VIDEO_ID1', title: 'Título do Vídeo 1' },
-            { id: 'VIDEO_ID2', title: 'Título do Vídeo 2' },
-            { id: 'VIDEO_ID3', title: 'Título do Vídeo 3' },
-            { id: 'VIDEO_ID4', title: 'Título do Vídeo 4' },
-            { id: 'VIDEO_ID5', title: 'Título do Vídeo 5' },
-            { id: 'VIDEO_ID6', title: 'Título do Vídeo 6' },
-            { id: 'VIDEO_ID7', title: 'Título do Vídeo 7' },
-            { id: 'VIDEO_ID8', title: 'Título do Vídeo 8' },
-            { id: 'VIDEO_ID9', title: 'Título do Vídeo 9' },
-            { id: 'VIDEO_ID10', title: 'Título do Vídeo 10' },
-            { id: 'VIDEO_ID11', title: 'Título do Vídeo 11' },
-            { id: 'VIDEO_ID12', title: 'Título do Vídeo 12' },
-            { id: 'VIDEO_ID13', title: 'Título do Vídeo 13' },
-            { id: 'VIDEO_ID14', title: 'Título do Vídeo 14' },
-{ id: 'VIDEO_ID15', title: 'Título do Vídeo 15' },
-{ id: 'VIDEO_ID16', title: 'Título do Vídeo 16' },
-{ id: 'VIDEO_ID17', title: 'Título do Vídeo 17' },
-{ id: 'VIDEO_ID18', title: 'Título do Vídeo 18' },
-{ id: 'VIDEO_ID19', title: 'Título do Vídeo 19' },
-{ id: 'VIDEO_ID20', title: 'Título do Vídeo 20' },
-{ id: 'VIDEO_ID21', title: 'Título do Vídeo 21' },
-{ id: 'VIDEO_ID22', title: 'Título do Vídeo 22' },
-{ id: 'VIDEO_ID23', title: 'Título do Vídeo 23' },
-{ id: 'VIDEO_ID24', title: 'Título do Vídeo 24' },
-{ id: 'VIDEO_ID25', title: 'Título do Vídeo 25' },
-            // Adicione mais vídeos conforme necessário
-        ];
+        // Sua chave de API do YouTube Data API v3
+        const apiKey = 'AIzaSyAMlSYvC_1X_MIUxMI2IhLUYxMAudtrW80';
+
+        // O ID do canal que você quer carregar os vídeos
+        const channelId = 'UCUfgnz2WuFV0fv6RdIYrKZQ';
 
         const itemsPerPage = 8; // Número máximo de miniaturas por página
         let currentPage = 1; // Página atual
 
-        function loadPage(page) {
-            // Calcula os índices de início e fim para a página atual
-            const startIndex = (page - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
+        // Função para buscar vídeos do canal
+        async function fetchVideos(pageToken = '') {
+            const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&type=video&maxResults=${itemsPerPage}&order=date&pageToken=${pageToken}&key=${apiKey}`;
 
-            // Filtra os vídeos para a página atual
-            const currentVideos = videos.slice(startIndex, endIndex);
+            try {
+                const response = await fetch(url);
+
+                // Verifique se a resposta está OK
+                if (!response.ok) {
+                    console.error(`Erro na resposta da API: ${response.status} - ${response.statusText}`);
+                    return null;
+                }
+
+                const data = await response.json();
+
+                // Exiba a resposta para depuração
+                console.log('Resposta da API:', data);
+
+                return data;
+            } catch (error) {
+                console.error('Erro ao buscar vídeos:', error);
+                return null;
+            }
+        }
+
+        // Função para carregar a página atual
+        async function loadPage(page) {
+            const pageToken = ''; // Page token para paginação (se necessário)
+            const data = await fetchVideos(pageToken);
+
+            // Verifica se a resposta da API está correta
+            if (!data || !data.items) {
+                console.error('Dados da API inválidos ou não disponíveis.');
+                return;
+            }
 
             // Limpa o conteúdo do container
             const galleryContainer = document.getElementById('gallery-container');
             galleryContainer.innerHTML = '';
 
             // Adiciona as miniaturas para a página atual
-            currentVideos.forEach(video => {
+            data.items.forEach(video => {
                 const videoContainer = document.createElement('div');
                 videoContainer.className = 'video-container';
 
                 const aElement = document.createElement('a');
                 aElement.setAttribute('data-fancybox', 'gallery');
-                aElement.setAttribute('href', `https://www.youtube.com/embed/${video.id}`);
+                aElement.setAttribute('href', `https://www.youtube.com/embed/${video.id.videoId}`);
 
                 const imgElement = document.createElement('img');
                 imgElement.className = 'video-thumbnail';
-                imgElement.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
-                imgElement.alt = video.title;
+                imgElement.src = video.snippet.thumbnails.high.url;
+                imgElement.alt = video.snippet.title;
 
                 const titleElement = document.createElement('div');
                 titleElement.className = 'video-title';
-                titleElement.innerText = video.title;
+                titleElement.innerText = video.snippet.title;
 
                 // Adiciona a imagem e o título ao container do vídeo
                 aElement.appendChild(imgElement);
@@ -147,34 +152,29 @@
             });
 
             // Atualiza a navegação
-            updatePagination(page);
+            updatePagination(data);
         }
 
-        function updatePagination(page) {
-            // Calcula o número total de páginas
-            const totalPages = Math.ceil(videos.length / itemsPerPage);
+        // Função para atualizar a navegação
+        function updatePagination(data) {
+            const totalPages = Math.ceil(data.pageInfo.totalResults / itemsPerPage);
 
-            // Limpa a navegação atual
             const pagination = document.getElementById('pagination');
             pagination.innerHTML = '';
 
-            // Cria os botões de navegação
             for (let i = 1; i <= totalPages; i++) {
                 const button = document.createElement('button');
                 button.innerText = i;
 
-                // Adiciona a classe active ao botão da página atual
-                if (i === page) {
+                if (i === currentPage) {
                     button.classList.add('active');
                 }
 
-                // Adiciona um evento de clique para carregar a página selecionada
                 button.addEventListener('click', () => {
                     currentPage = i;
                     loadPage(currentPage);
                 });
 
-                // Adiciona o botão à navegação
                 pagination.appendChild(button);
             }
         }
