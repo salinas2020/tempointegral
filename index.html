@@ -10,24 +10,71 @@
         .container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            grid-gap: 10px;
+            grid-gap: 20px;
+            padding: 20px;
         }
 
         .video-thumbnail-container {
             display: flex;
             flex-direction: column;
             align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .video-thumbnail-container:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .video-thumbnail {
             width: 100%;
             height: auto;
             cursor: pointer;
+            border-radius: 5px;
         }
 
         .video-info {
             text-align: center;
-            margin-top: 5px;
+            margin-top: 10px;
+        }
+
+        .video-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .video-info p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        #pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        #pagination a {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #f2f2f2;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 0 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #pagination a:hover {
+            background-color: #ddd;
+        }
+
+        #pagination a.active {
+            background-color: #333;
+            color: #fff;
         }
     </style>
 </head>
@@ -51,6 +98,7 @@
                 const pagination = document.getElementById('pagination');
 
                 const totalPages = Math.ceil(data.items.length / itemsPerPage);
+                let currentPage = 1;
 
                 function showPage(page) {
                     videoThumbnails.innerHTML = '';
@@ -97,6 +145,9 @@
                             preload: false
                         }
                     });
+
+                    showPagination();
+                    highlightCurrentPage(page);
                 }
 
                 function showPagination() {
@@ -107,6 +158,7 @@
                         pageLink.href = '#';
                         pageLink.textContent = i;
                         pageLink.onclick = function() {
+                            currentPage = i;
                             showPage(i);
                             return false;
                         };
@@ -115,8 +167,15 @@
                     }
                 }
 
+                function highlightCurrentPage(page) {
+                    const pageLinks = pagination.getElementsByTagName('a');
+                    for (let i = 0; i < pageLinks.length; i++) {
+                        pageLinks[i].classList.remove('active');
+                    }
+                    pageLinks[page - 1].classList.add('active');
+                }
+
                 showPage(1);
-                showPagination();
             })
             .catch(error => console.error(error));
     </script>
