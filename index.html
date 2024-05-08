@@ -3,184 +3,55 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vídeos do YouTube em Janela Pop-up</title>
-
-    <!-- Inclui o CSS da biblioteca Fancybox -->
+    <title>Miniaturas do Canal do YouTube</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
-
-    <!-- Inclui o jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-    <!-- Inclui o JavaScript da biblioteca Fancybox -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-
     <style>
-        /* Estilos para o layout responsivo */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            padding: 10px;
-        }
-
         .video-thumbnail {
-            width: 100%;
-            aspect-ratio: 16 / 9;
+            width: 200px;
+            height: 150px;
+            margin: 10px;
             cursor: pointer;
-        }
-
-        .video-title {
-            margin-top: 5px;
-            font-size: 14px;
-            color: #333;
-            text-align: center;
-        }
-
-        .pagination {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .pagination button {
-            margin: 0 5px;
-            padding: 5px 10px;
-            border: 1px solid #333;
-            background-color: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .pagination button.active {
-            background-color: #333;
-            color: white;
         }
     </style>
 </head>
 
 <body>
-    <div id="gallery-container" class="container">
-        <!-- As miniaturas serão carregadas pelo JavaScript -->
-    </div>
+    <div id="video-thumbnails" class="container"></div>
 
-    <div class="pagination" id="pagination">
-        <!-- A navegação será carregada pelo JavaScript -->
-    </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
     <script>
-        // Sua chave de API do YouTube Data API v3
         const apiKey = 'AIzaSyAMlSYvC_1X_MIUxMI2IhLUYxMAudtrW80';
-
-        // O ID do canal que você quer carregar os vídeos
         const channelId = 'UCUfgnz2WuFV0fv6RdIYrKZQ';
+        const maxResults = 8;
 
-        const itemsPerPage = 8; // Número máximo de miniaturas por página
-        let currentPage = 1; // Página atual
+        fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&maxResults=${maxResults}&order=date`)
+            .then(response => response.json())
+            .then(data => {
+                const videoThumbnails = document.getElementById('video-thumbnails');
+                data.items.forEach(item => {
+                    const videoThumbnailLink = document.createElement('a');
+                    videoThumbnailLink.href = `https://www.youtube.com/watch?v=${item.id.videoId}`;
+                    videoThumbnailLink.dataset.fancybox = 'gallery';
+                    videoThumbnailLink.dataset.caption = item.snippet.title;
 
-        // Função para buscar vídeos do canal
-        async function fetchVideos(pageToken = '') {
-            const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&type=video&maxResults=${itemsPerPage}&order=date&pageToken=${pageToken}&key=${apiKey}`;
+                    const videoThumbnail = document.createElement('img');
+                    videoThumbnail.src = item.snippet.thumbnails.medium.url;
+                    videoThumbnail.alt = item.snippet.title;
+                    videoThumbnail.className = 'video-thumbnail';
 
-            try {
-                const response = await fetch(url);
-
-                // Verifique se a resposta está OK
-                if (!response.ok) {
-                    console.error(`Erro na resposta da API: ${response.status} - ${response.statusText}`);
-                    return null;
-                }
-
-                const data = await response.json();
-
-                // Exiba a resposta para depuração
-                console.log('Resposta da API:', data);
-
-                return data;
-            } catch (error) {
-                console.error('Erro ao buscar vídeos:', error);
-                return null;
-            }
-        }
-
-        // Função para carregar a página atual
-        async function loadPage(page) {
-            const pageToken = ''; // Page token para paginação (se necessário)
-            const data = await fetchVideos(pageToken);
-
-            // Verifica se a resposta da API está correta
-            if (!data || !data.items) {
-                console.error('Dados da API inválidos ou não disponíveis.');
-                return;
-            }
-
-            // Limpa o conteúdo do container
-            const galleryContainer = document.getElementById('gallery-container');
-            galleryContainer.innerHTML = '';
-
-            // Adiciona as miniaturas para a página atual
-            data.items.forEach(video => {
-                const videoContainer = document.createElement('div');
-                videoContainer.className = 'video-container';
-
-                const aElement = document.createElement('a');
-                aElement.setAttribute('data-fancybox', 'gallery');
-                aElement.setAttribute('href', `https://www.youtube.com/embed/${video.id.videoId}`);
-
-                const imgElement = document.createElement('img');
-                imgElement.className = 'video-thumbnail';
-                imgElement.src = video.snippet.thumbnails.high.url;
-                imgElement.alt = video.snippet.title;
-
-                const titleElement = document.createElement('div');
-                titleElement.className = 'video-title';
-                titleElement.innerText = video.snippet.title;
-
-                // Adiciona a imagem e o título ao container do vídeo
-                aElement.appendChild(imgElement);
-                videoContainer.appendChild(aElement);
-                videoContainer.appendChild(titleElement);
-
-                // Adiciona o container ao container principal
-                galleryContainer.appendChild(videoContainer);
-            });
-
-            // Atualiza a navegação
-            updatePagination(data);
-        }
-
-        // Função para atualizar a navegação
-        function updatePagination(data) {
-            const totalPages = Math.ceil(data.pageInfo.totalResults / itemsPerPage);
-
-            const pagination = document.getElementById('pagination');
-            pagination.innerHTML = '';
-
-            for (let i = 1; i <= totalPages; i++) {
-                const button = document.createElement('button');
-                button.innerText = i;
-
-                if (i === currentPage) {
-                    button.classList.add('active');
-                }
-
-                button.addEventListener('click', () => {
-                    currentPage = i;
-                    loadPage(currentPage);
+                    videoThumbnailLink.appendChild(videoThumbnail);
+                    videoThumbnails.appendChild(videoThumbnailLink);
                 });
 
-                pagination.appendChild(button);
-            }
-        }
-
-        // Inicializa a primeira página
-        loadPage(currentPage);
+                $('[data-fancybox="gallery"]').fancybox({
+                    iframe: {
+                        preload: false
+                    }
+                });
+            })
+            .catch(error => console.error(error));
     </script>
 </body>
 
