@@ -1,184 +1,112 @@
 <!DOCTYPE html>
-<html lang="pt">
-
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miniaturas do Canal do YouTube</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+    <title>Galeria de Vídeos do YouTube</title>
     <style>
-        .container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-gap: 20px;
-            padding: 20px;
-        }
-
-        .video-thumbnail-container {
+        body {
+            font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.3s ease;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
-
-        .video-thumbnail-container:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        .thumbnail {
+            width: 200px;
+            margin: 10px;
+            cursor: pointer;
         }
-
-        .video-thumbnail {
+        .thumbnail img {
             width: 100%;
             height: auto;
-            cursor: pointer;
-            border-radius: 5px;
         }
-
-        .video-info {
+        .thumbnail h4 {
             text-align: center;
-            margin-top: 10px;
         }
-
-        .video-info h3 {
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        .video-info p {
-            font-size: 14px;
-            color: #666;
-        }
-
-        #pagination {
-            display: flex;
+        #video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
             justify-content: center;
-            margin-top: 20px;
+            align-items: center;
         }
-
-        #pagination a {
-            display: inline-block;
-            padding: 8px 16px;
-            background-color: #f2f2f2;
-            color: #333;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 0 5px;
-            transition: background-color 0.3s ease;
+        #video-modal iframe {
+            width: 80%;
+            height: 80%;
         }
-
-        #pagination a:hover {
-            background-color: #ddd;
-        }
-
-        #pagination a.active {
-            background-color: #333;
-            color: #fff;
+        @media (max-width: 600px) {
+            .thumbnail {
+                width: 100%;
+            }
+            #video-modal iframe {
+                width: 100%;
+                height: 60%;
+            }
         }
     </style>
 </head>
-
 <body>
-    <div id="video-thumbnails" class="container"></div>
-    <div id="pagination"></div>
+    <div id="video-gallery"></div>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <div id="video-modal" onclick="closeVideo()">
+        <iframe id="video-frame" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+
     <script>
-        const apiKey = 'AIzaSyAMlSYvC_1X_MIUxMI2IhLUYxMAudtrW80';
-        const channelId = 'UCUfgnz2WuFV0fv6RdIYrKZQ';
-        const maxResults = 80;
-        const itemsPerPage = 8;
+        const API_KEY = 'AIzaSyAMlSYvC_1X_MIUxMI2IhLUYxMAudtrW80';
+        const CHANNEL_ID = 'UCUfgnz2WuFV0fv6RdIYrKZQ';
 
-        fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&maxResults=${maxResults}&order=date`)
-            .then(response => response.json())
-            .then(data => {
-                const videoThumbnails = document.getElementById('video-thumbnails');
-                const pagination = document.getElementById('pagination');
+        async function fetchYouTubeVideos() {
+            const response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=10`);
+            const data = await response.json();
+            return data.items;
+        }
 
-                const totalPages = Math.ceil(data.items.length / itemsPerPage);
-                let currentPage = 1;
+        function createVideoElement(video) {
+            const videoElement = document.createElement('div');
+            videoElement.classList.add('thumbnail');
+            videoElement.setAttribute('data-video-id', video.id.videoId);
 
-                function showPage(page) {
-                    videoThumbnails.innerHTML = '';
+            const thumbnail = document.createElement('img');
+            thumbnail.src = video.snippet.thumbnails.medium.url;
+            videoElement.appendChild(thumbnail);
 
-                    const startIndex = (page - 1) * itemsPerPage;
-                    const endIndex = startIndex + itemsPerPage;
+            const title = document.createElement('h4');
+            title.textContent = video.snippet.title;
+            videoElement.appendChild(title);
 
-                    for (let i = startIndex; i < endIndex && i < data.items.length; i++) {
-                        const item = data.items[i];
-                        const videoThumbnailContainer = document.createElement('div');
-                        videoThumbnailContainer.className = 'video-thumbnail-container';
+            videoElement.addEventListener('click', () => {
+                const videoId = video.id.videoId;
+                document.getElementById('video-frame').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                document.getElementById('video-modal').style.display = 'flex';
+            });
 
-                        const videoThumbnailLink = document.createElement('a');
-                        videoThumbnailLink.href = `https://www.youtube.com/watch?v=${item.id.videoId}`;
-                        videoThumbnailLink.dataset.fancybox = 'gallery';
-                        videoThumbnailLink.dataset.caption = item.snippet.title;
+            return videoElement;
+        }
 
-                        const videoThumbnail = document.createElement('img');
-                        videoThumbnail.src = item.snippet.thumbnails.medium.url;
-                        videoThumbnail.alt = item.snippet.title;
-                        videoThumbnail.className = 'video-thumbnail';
+        function closeVideo() {
+            document.getElementById('video-modal').style.display = 'none';
+            document.getElementById('video-frame').src = '';
+        }
 
-                        videoThumbnailLink.appendChild(videoThumbnail);
-                        videoThumbnailContainer.appendChild(videoThumbnailLink);
+        document.addEventListener('DOMContentLoaded', async () => {
+            const videoGallery = document.getElementById('video-gallery');
+            const videos = await fetchYouTubeVideos();
 
-                        const videoInfo = document.createElement('div');
-                        videoInfo.className = 'video-info';
-
-                        const videoTitle = document.createElement('h3');
-                        videoTitle.textContent = item.snippet.title;
-
-                        const videoPublishedAt = document.createElement('p');
-                        videoPublishedAt.textContent = new Date(item.snippet.publishedAt).toLocaleDateString();
-
-                        videoInfo.appendChild(videoTitle);
-                        videoInfo.appendChild(videoPublishedAt);
-
-                        videoThumbnailContainer.appendChild(videoInfo);
-                        videoThumbnails.appendChild(videoThumbnailContainer);
-                    }
-
-                    $('[data-fancybox="gallery"]').fancybox({
-                        iframe: {
-                            preload: false
-                        }
-                    });
-
-                    showPagination();
-                    highlightCurrentPage(page);
+            videos.forEach(video => {
+                if (video.id.kind === 'youtube#video') {
+                    const videoElement = createVideoElement(video);
+                    videoGallery.appendChild(videoElement);
                 }
-
-                function showPagination() {
-                    pagination.innerHTML = '';
-
-                    for (let i = 1; i <= totalPages; i++) {
-                        const pageLink = document.createElement('a');
-                        pageLink.href = '#';
-                        pageLink.textContent = i;
-                        pageLink.onclick = function() {
-                            currentPage = i;
-                            showPage(i);
-                            return false;
-                        };
-
-                        pagination.appendChild(pageLink);
-                    }
-                }
-
-                function highlightCurrentPage(page) {
-                    const pageLinks = pagination.getElementsByTagName('a');
-                    for (let i = 0; i < pageLinks.length; i++) {
-                        pageLinks[i].classList.remove('active');
-                    }
-                    pageLinks[page - 1].classList.add('active');
-                }
-
-                showPage(1);
-            })
-            .catch(error => console.error(error));
+            });
+        });
     </script>
 </body>
-
 </html>
